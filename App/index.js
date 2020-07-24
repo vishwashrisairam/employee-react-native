@@ -6,11 +6,16 @@ import constants from 'expo-constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {reducer} from './reducers/reducer'; 
+
 import Home from './screens/Home';
 import CreateEmployee from './screens/CreateEmployee'
 import Profile from './screens/Profile'
 
 const Stack = createStackNavigator();
+const store = createStore(reducer);
 
 const headerOptions = {
   headerTintColor:"white",
@@ -38,9 +43,11 @@ function App() {
 
 export default ()=>{
   return (
-    <NavigationContainer>
-      <App/>
-    </NavigationContainer> 
+    <Provider store={store}>
+      <NavigationContainer>
+        <App/>
+      </NavigationContainer>
+    </Provider> 
   )
 }
 

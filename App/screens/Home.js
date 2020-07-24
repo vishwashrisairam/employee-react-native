@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { StyleSheet,Text,View,Image,FlatList,Alert } from 'react-native';
 import {Card,FAB} from 'react-native-paper';
+import {useSelector,useDispatch} from 'react-redux';
 
 // import profileImage from '../assets/images/img2.jpg'
 
@@ -33,8 +34,10 @@ const styles = StyleSheet.create({
 
 const Home = ({navigation} )=>{
 
-    const [data,setData] = useState([]);
-    const [loading,setLoading] = useState(true);
+    // const [data,setData] = useState([]);
+    // const [loading,setLoading] = useState(true);
+    const dispatch = useDispatch()
+    const {data,loading}=useSelector((state)=> state)
 
     useEffect(()=>{
       fetchData();
@@ -43,9 +46,11 @@ const Home = ({navigation} )=>{
     const fetchData = () => {
       fetch("http://192.168.0.12:3000/")
         .then(res=>res.json())
-        .then(data=>{
-            setData(data);
-            setLoading(false)
+        .then(results=>{
+            // setData(data);
+            // setLoading(false)
+            dispatch({type:"ADD_DATA",payload:results})
+            dispatch({type:"SET_LOADING",payload:false})
         })
         .catch(err=>{
           Alert.alert("someting went wrong:"+err)
